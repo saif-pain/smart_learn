@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_learn/core/shared_prefs.dart';
 import 'package:smart_learn/screens/splash_screen.dart';
 
@@ -15,7 +16,9 @@ class SmartLearnApp extends StatelessWidget {
     return MaterialApp(
       title: 'SmartLearn',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Poppins'),
+      theme: ThemeData(
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(),
+      ),
       home: const SplashScreen(),
     );
   }
