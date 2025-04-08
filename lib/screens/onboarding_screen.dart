@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
 import 'package:smart_learn/models/onboarding_model.dart';
+import 'package:smart_learn/screens/welcome_screen.dart';
 import 'package:smart_learn/widgets/onboarding_page.dart';
 import 'package:smart_learn/screens/login_screen.dart';
 import 'package:smart_learn/core/shared_prefs.dart';
@@ -20,7 +21,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     await SharedPrefs.setFirstLaunchFalse();
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => const LoginScreen()),
+      MaterialPageRoute(builder: (_) => const WelcomeScreen()),
     );
   }
 

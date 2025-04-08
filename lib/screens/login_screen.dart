@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_learn/core/app_colors.dart';
 import 'signup_screen.dart';
 import 'reset_password_screen.dart';
 
@@ -7,46 +8,103 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final idController = TextEditingController();
-    final passController = TextEditingController();
-
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: idController,
-              decoration: const InputDecoration(labelText: 'Student ID'),
-            ),
-            const SizedBox(height: 15),
-            TextField(
-              controller: passController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Handle login
-              },
-              child: const Text("Login"),
-            ),
-            const SizedBox(height: 10),
-            TextButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const SignupScreen()));
-              },
-              child: const Text("Don't have an account? Sign Up"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const ResetPasswordScreen()));
-              },
-              child: const Text("Forgot Password?"),
-            ),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              Align(
+                alignment:
+                    Alignment.centerLeft, // Align the arrow button to the left
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_rounded),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                "Sign in 👋",
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                "Use Your Official DIU Student\nID To Log In",
+                style: TextStyle(fontSize: 14, color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Student ID",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ResetPasswordScreen()));
+                  },
+                  child: const Text("Forgot Password?"),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                  ),
+                  child: const Text(
+                    "SIGN IN",
+                    style: TextStyle(color: AppColors.white),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don’t Have An Account ? "),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const SignupScreen()),
+                        );
+                      },
+                      child: const Text(
+                        "Sign Up Here",
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

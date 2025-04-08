@@ -20,6 +20,10 @@ class WelcomeScreen extends StatelessWidget {
             const SizedBox(height: 30),
             Text(
               "Join SmartLearn\nElevate Your Learning",
+              style: AppTextStyles.title.copyWith(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
@@ -41,7 +45,10 @@ class WelcomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 12),
                   ),
-                  child: const Text("SIGN IN"),
+                  child: const Text(
+                    "SIGN IN",
+                    style: TextStyle(color: AppColors.white),
+                  ),
                 ),
                 const SizedBox(width: 10),
                 OutlinedButton(
@@ -52,12 +59,12 @@ class WelcomeScreen extends StatelessWidget {
                             builder: (_) => const SignupScreen()));
                   },
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: AppColors.primary),
+                    backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 12),
                   ),
-                  child: Text("SIGN UP",
-                      style: TextStyle(color: AppColors.primary)),
+                  child:
+                      Text("SIGN UP", style: TextStyle(color: AppColors.white)),
                 ),
               ],
             )
