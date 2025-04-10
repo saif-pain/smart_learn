@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
 import 'package:smart_learn/screens/home_screen.dart';
 import 'package:smart_learn/screens/settings_page.dart';
+import 'package:smart_learn/screens/profile_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
     const HomeScreen(),
     const Center(child: Text('Courses')),
     const SettingsPage(),
-    const Center(child: Text('Profile')),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
