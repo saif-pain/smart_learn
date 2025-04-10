@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
+import 'package:smart_learn/screens/lessons_page.dart';
 
 class CourseDetailsPage extends StatelessWidget {
   final String title;
@@ -25,7 +26,7 @@ class CourseDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildCourseBanner(),
-            _buildTabBar(),
+            _buildTabBar(context),
             const SizedBox(height: 16),
             _buildCourseTitle(),
             const SizedBox(height: 8),
@@ -35,7 +36,7 @@ class CourseDetailsPage extends StatelessWidget {
             const SizedBox(height: 16),
             _buildSkills(),
             const SizedBox(height: 16),
-            _buildStartCourseButton(),
+            _buildStartCourseButton(context),
           ],
         ),
       ),
@@ -73,39 +74,51 @@ class CourseDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTabBar() {
+  Widget _buildTabBar(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildTabItem('Overview', isSelected: true),
-          _buildTabItem('Lessons', isSelected: false),
-          _buildTabItem('Questions', isSelected: false),
+          _buildTabItem('Overview', isSelected: true, onTap: () {}),
+          _buildTabItem('Lessons', isSelected: false, onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LessonsPage(
+                  title: title,
+                ),
+              ),
+            );
+          }),
+          _buildTabItem('Questions', isSelected: false, onTap: () {}),
         ],
       ),
     );
   }
 
-  Widget _buildTabItem(String title, {required bool isSelected}) {
-    return Column(
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: isSelected ? AppColors.primary : AppColors.textSecondary,
+  Widget _buildTabItem(String title, {required bool isSelected, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: isSelected ? AppColors.primary : AppColors.textSecondary,
+            ),
           ),
-        ),
-        if (isSelected)
-          Container(
-            margin: const EdgeInsets.only(top: 4),
-            height: 2,
-            width: 50,
-            color: AppColors.primary,
-          ),
-      ],
+          if (isSelected)
+            Container(
+              margin: const EdgeInsets.only(top: 4),
+              height: 2,
+              width: 50,
+              color: AppColors.primary,
+            ),
+        ],
+      ),
     );
   }
 
@@ -242,14 +255,22 @@ class CourseDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStartCourseButton() {
+  Widget _buildStartCourseButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
           onPressed: () {
-            // Start course action
+            // Navigate to LessonsPage when START COURSE is pressed
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LessonsPage(
+                  title: title,
+                ),
+              ),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
