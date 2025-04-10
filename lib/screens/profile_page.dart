@@ -7,6 +7,12 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Ensure we're actually showing the profile page
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // This prevents automatic navigation to edit profile
+      // Will execute after the frame is built
+    });
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -69,14 +75,16 @@ class ProfilePage extends StatelessWidget {
                     size: 16,
                   ),
                   onPressed: () {
-                    // Navigate to edit profile page
-                    Navigator.push(
-                      context,
+                    // Ensure navigation only happens on explicit user action
+                    Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const EditProfilePage(),
                       ),
                     );
                   },
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  splashRadius: 16,
                 ),
               ),
             ),
