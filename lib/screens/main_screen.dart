@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
 import 'package:smart_learn/screens/home_screen.dart';
+import 'package:smart_learn/screens/settings_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,7 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const Center(child: Text('Courses')),
-    const Center(child: Text('Chat')),
+    const SettingsPage(),
     const Center(child: Text('Profile')),
   ];
 
@@ -78,11 +79,11 @@ class _MainScreenState extends State<MainScreen> {
                 label: 'Courses',
               ),
               BottomNavigationBarItem(
-                icon: Icon(_selectedIndex == 2 ? Icons.chat_bubble : Icons.chat_bubble_outline),
-                label: 'Chat',
+                icon: Icon(_selectedIndex == 2 ? Icons.settings : Icons.settings_outlined),
+                label: 'Settings',
               ),
               BottomNavigationBarItem(
-                icon: Icon(_selectedIndex == 3 ? Icons.person : Icons.person_outline),
+                icon: Icon(_selectedIndex == 3 ? Icons.person : Icons.person_outlined),
                 label: 'Profile',
               ),
             ],
