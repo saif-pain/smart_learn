@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
+import 'package:smart_learn/screens/main_screen.dart';
 import 'signup_screen.dart';
 import 'reset_password_screen.dart';
 
@@ -67,7 +68,13 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // Navigate to the main screen with bottom navigation
+                    Navigator.pushReplacement(
+                      context, 
+                      MaterialPageRoute(builder: (_) => const MainScreen()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.symmetric(vertical: 20),
