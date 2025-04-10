@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
+import 'package:smart_learn/screens/edit_profile_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -19,43 +20,33 @@ class ProfilePage extends StatelessWidget {
             color: AppColors.textPrimary,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications, color: AppColors.textPrimary),
-            onPressed: () {
-              // Handle notifications icon action
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildProfileSection(),
-            const SizedBox(height: 24),
-            _buildSettingsList(),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildProfileHeader(context),
+              const SizedBox(height: 24),
+              _buildAboutSection(),
+              const SizedBox(height: 16),
+              _buildSkillsSection(),
+              const SizedBox(height: 24),
+              _buildEnrolledCoursesSection(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildProfileSection() {
-    return Stack(
-      alignment: Alignment.center,
+  Widget _buildProfileHeader(BuildContext context) {
+    return Column(
       children: [
-        Container(
-          height: 180,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: CustomPaint(
-            size: const Size(double.infinity, 180),
-            painter: _WavePainter(),
-          ),
-        ),
-        Column(
-          children: const [
+        Stack(
+          alignment: Alignment.center,
+          children: [
             CircleAvatar(
               radius: 50,
               backgroundColor: AppColors.secondary,
@@ -65,84 +56,196 @@ class ProfilePage extends StatelessWidget {
                 color: AppColors.primary,
               ),
             ),
-            SizedBox(height: 10),
-            Text(
-              'User Name',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            Text(
-              'user@example.com',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.textSecondary,
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: CircleAvatar(
+                radius: 16,
+                backgroundColor: AppColors.primary,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                  onPressed: () {
+                    // Navigate to edit profile page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfilePage(),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ],
+        ),
+        const SizedBox(height: 16),
+        const Text(
+          'Name Here',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildSettingsList() {
-    final settings = [
-      {'icon': Icons.person, 'title': 'Edit Profile'},
-      {'icon': Icons.check_circle, 'title': 'My Completed Courses'},
-      {'icon': Icons.school, 'title': 'My Certificates'},
-      {'icon': Icons.menu_book, 'title': 'Academic Results'},
-      {'icon': Icons.policy, 'title': 'Terms & Conditions'},
-      {'icon': Icons.send, 'title': 'Invite Friends'},
-      {'icon': Icons.logout, 'title': 'Logout'},
-    ];
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: settings.map((setting) {
-          return ListTile(
-            leading: Icon(setting['icon'] as IconData, color: AppColors.primary),
-            title: Text(
-              setting['title'] as String,
-              style: const TextStyle(fontSize: 16, color: AppColors.textPrimary),
-            ),
-            trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.textSecondary),
-            onTap: () {
-              // Handle navigation for each setting
-            },
-          );
-        }).toList(),
-      ),
+  Widget _buildAboutSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        Text(
+          'About Me',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        SizedBox(height: 8),
+        Text(
+          'Computer Science & Engineering student at Daffodil International University (DIU), batch 221. '
+          'Passionate about coding, problem-solving, and exploring new technologies. '
+          'Always eager to learn, grow, and build impactful solutions.',
+          style: TextStyle(
+            fontSize: 14,
+            color: AppColors.textSecondary,
+          ),
+        ),
+      ],
     );
   }
-}
 
-class _WavePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppColors.primary.withOpacity(0.1)
-      ..style = PaintingStyle.fill;
+  Widget _buildSkillsSection() {
+    final skills = ['UI/UX', 'Website Design', 'Figma', 'Animation', 'User Persona', 'XD'];
 
-    final path = Path()
-      ..moveTo(0, size.height * 0.5)
-      ..quadraticBezierTo(
-        size.width * 0.5,
-        size.height * 0.8,
-        size.width,
-        size.height * 0.5,
-      )
-      ..lineTo(size.width, 0)
-      ..lineTo(0, 0)
-      ..close();
-
-    canvas.drawPath(path, paint);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'My Skills',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: skills.map((skill) {
+            return Chip(
+              label: Text(skill),
+              backgroundColor: AppColors.secondary,
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: AppColors.textPrimary,
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
   }
 
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+  Widget _buildEnrolledCoursesSection() {
+    final courses = [
+      {'title': 'Mobile App Design'},
+      {'title': 'Compiler Design'},
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Enrolled Courses',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                // Handle "See All" action
+              },
+              child: const Text(
+                'See All',
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: courses.map((course) {
+              return Container(
+                width: 160,
+                height: 120,
+                margin: const EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.book,
+                          size: 40,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        course['title']!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
   }
 }
