@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/screens/profile_page.dart';
+import 'package:smart_learn/screens/academic_results_page.dart';
 
 class AccountSettingsPage extends StatelessWidget {
   const AccountSettingsPage({Key? key}) : super(key: key);
@@ -119,7 +120,13 @@ class AccountSettingsPage extends StatelessWidget {
         'icon': Icons.menu_book, 
         'title': 'Academic Results',
         'onTap': () {
-          // Handle navigation for academic results
+          // Navigate to Academic Results page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AcademicResultsPage(),
+            ),
+          );
         }
       },
       {
