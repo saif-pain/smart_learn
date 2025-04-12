@@ -107,7 +107,6 @@ class SettingsPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.arrow_forward_ios, color: AppColors.primary),
             onPressed: () {
-              // Navigate to account details page
             },
           ),
         ],
@@ -145,7 +144,6 @@ class SettingsPage extends StatelessWidget {
               value: false,
               activeColor: AppColors.primary,
               onChanged: (value) {
-                // Handle theme toggle
               },
             ),
           ),
@@ -156,7 +154,6 @@ class SettingsPage extends StatelessWidget {
               value: true,
               activeColor: AppColors.primary,
               onChanged: (value) {
-                // Handle notifications toggle
               },
             ),
           ),
@@ -173,7 +170,6 @@ class SettingsPage extends StatelessWidget {
             title: 'Help',
             trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.textSecondary),
             onTap: () {
-              // Navigate to help page
             },
           ),
         ],

@@ -8,10 +8,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ensure we're actually showing the profile page
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // This prevents automatic navigation to edit profile
-      // Will execute after the frame is built
     });
     
     return Scaffold(
@@ -40,7 +37,7 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 16),
               _buildSkillsSection(),
               const SizedBox(height: 24),
-              _buildAcademicResultsSection(context),  // Add academic results section
+              _buildAcademicResultsSection(context),
               const SizedBox(height: 24),
               _buildEnrolledCoursesSection(),
             ],
@@ -78,7 +75,6 @@ class ProfilePage extends StatelessWidget {
                     size: 16,
                   ),
                   onPressed: () {
-                    // Ensure navigation only happens on explicit user action
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const EditProfilePage(),
@@ -166,7 +162,6 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  // New method for Academic Results section
   Widget _buildAcademicResultsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

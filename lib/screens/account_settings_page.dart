@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_learn/screens/login_screen.dart';
 import 'package:smart_learn/screens/profile_page.dart';
 import 'package:smart_learn/screens/academic_results_page.dart';
 
@@ -90,7 +92,7 @@ class AccountSettingsPage extends StatelessWidget {
   Widget _buildSettingsList(BuildContext context) {
     final settings = [
       {
-        'icon': Icons.person, 
+        'icon': Icons.person,
         'title': 'Edit Profile',
         'onTap': () {
           // Navigate to Edit Profile page
@@ -103,21 +105,21 @@ class AccountSettingsPage extends StatelessWidget {
         }
       },
       {
-        'icon': Icons.check_circle, 
+        'icon': Icons.check_circle,
         'title': 'My Completed Courses',
         'onTap': () {
           // Handle navigation for completed courses
         }
       },
       {
-        'icon': Icons.school, 
+        'icon': Icons.school,
         'title': 'My Certificates',
         'onTap': () {
           // Handle navigation for certificates
         }
       },
       {
-        'icon': Icons.menu_book, 
+        'icon': Icons.menu_book,
         'title': 'Academic Results',
         'onTap': () {
           // Navigate to Academic Results page
@@ -130,25 +132,31 @@ class AccountSettingsPage extends StatelessWidget {
         }
       },
       {
-        'icon': Icons.policy, 
+        'icon': Icons.policy,
         'title': 'Terms & Conditions',
         'onTap': () {
           // Handle navigation for terms and conditions
         }
       },
       {
-        'icon': Icons.send, 
+        'icon': Icons.send,
         'title': 'Invite Friends',
         'onTap': () {
           // Handle navigation for invite friends
         }
       },
       {
-        'icon': Icons.logout, 
+        'icon': Icons.logout,
         'title': 'Logout',
-        'onTap': () {
-          // Handle logout
-        }
+        'onTap': () async {
+          await FirebaseAuth.instance.signOut();
+
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            (Route<dynamic> route) => false,
+          );
+        },
       },
     ];
 
