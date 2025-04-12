@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
 import 'package:smart_learn/screens/lessons_page.dart';
+import 'package:smart_learn/screens/questions.dart';
+
 
 class CourseDetailsPage extends StatelessWidget {
   final String title;
@@ -80,8 +82,10 @@ class CourseDetailsPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildTabItem('Overview', isSelected: true, onTap: () {}),
-          _buildTabItem('Lessons', isSelected: false, onTap: () {
+          _buildTabItem('Overview',
+              isSelected: true, onTap: () {}),
+          _buildTabItem('Lessons', isSelected: false,
+              onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -91,11 +95,22 @@ class CourseDetailsPage extends StatelessWidget {
               ),
             );
           }),
-          _buildTabItem('Questions', isSelected: false, onTap: () {}),
+          _buildTabItem('Questions', isSelected: false,
+              onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QuestionsPage(
+                  title: title,
+                ),
+              ),
+            );
+          }),
         ],
       ),
     );
   }
+
 
   Widget _buildTabItem(String title, {required bool isSelected, required VoidCallback onTap}) {
     return GestureDetector(
