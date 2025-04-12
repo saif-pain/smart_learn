@@ -155,12 +155,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final courses = [
       {
         'title': 'Compiler Design',
-        'image': 'assets/images/compiler.png',
         'progress': 0.5,
       },
       {
         'title': 'Mobile App Design',
-        'image': 'assets/images/MAD.png',
         'progress': 0.7,
       },
     ];
