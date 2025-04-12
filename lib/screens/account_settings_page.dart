@@ -30,9 +30,7 @@ class AccountSettingsPage extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            const SizedBox(width: 8),
-            // You can replace this with your actual settings icon
-            const Icon(Icons.settings, color: Colors.black),
+         
           ],
         ),
         actions: [

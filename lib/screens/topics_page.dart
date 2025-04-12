@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_learn/screens/login_screen.dart';
 
 class TopicsPage extends StatelessWidget {
   const TopicsPage({Key? key}) : super(key: key);
@@ -6,6 +8,7 @@ class TopicsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFE9DED3),
       appBar: AppBar(
         title: Text(
           "Topics",
@@ -87,14 +90,22 @@ class TopicsPage extends StatelessWidget {
               leading: Icon(Icons.logout,
                   color: Colors.redAccent),
               title: Text('Logout'),
-              onTap: () {
-                print("Logout clicked");
+              onTap: () async {
+               
+                await FirebaseAuth.instance.signOut();
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const LoginScreen()),
+                  (Route<dynamic> route) => false,
+                );
               },
             ),
           ],
         ),
       ),
-      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(

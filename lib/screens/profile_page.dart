@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
 import 'package:smart_learn/screens/edit_profile_page.dart';
-import 'package:smart_learn/screens/academic_results_page.dart';  // Import the new page
+import 'package:smart_learn/screens/academic_results_page.dart'; // Import the new page
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-    });
-    
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFE9DED3),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -24,10 +23,12 @@ class ProfilePage extends StatelessWidget {
             color: AppColors.textPrimary,
           ),
         ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding:
+              const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -77,7 +78,8 @@ class ProfilePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const EditProfilePage(),
+                        builder: (context) =>
+                            const EditProfilePage(),
                       ),
                     );
                   },
@@ -129,7 +131,14 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildSkillsSection() {
-    final skills = ['UI/UX', 'Website Design', 'Figma', 'Animation', 'User Persona', 'XD'];
+    final skills = [
+      'UI/UX',
+      'Website Design',
+      'Figma',
+      'Animation',
+      'User Persona',
+      'XD'
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +171,8 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildAcademicResultsSection(BuildContext context) {
+  Widget _buildAcademicResultsSection(
+      BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -182,7 +192,8 @@ class ProfilePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AcademicResultsPage(),
+                    builder: (context) =>
+                        const AcademicResultsPage(),
                   ),
                 );
               },
@@ -301,13 +312,15 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
                   children: [
                     Container(
                       height: 80,
                       decoration: BoxDecoration(
                         color: AppColors.secondary,
-                        borderRadius: const BorderRadius.vertical(
+                        borderRadius:
+                            const BorderRadius.vertical(
                           top: Radius.circular(12),
                         ),
                       ),

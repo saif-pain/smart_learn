@@ -1,196 +1,168 @@
 import 'package:flutter/material.dart';
-import 'package:smart_learn/core/app_colors.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final profileImage =
+        'assets/images/pp.jpg'; // Replace with actual image
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(
+          0xFFE9DED3), // Match the background style
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
-          'Settings',
-          style: TextStyle(color: AppColors.textPrimary),
+        title: const Text('SETTINGS',
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w700)),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {},
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeader(),
-          const SizedBox(height: 24),
-          _buildAccountSection(),
-          const SizedBox(height: 24),
-          _buildSettingsSection(),
-        ],
-      ),
-    );
-  }
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            // Profile Header
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: NetworkImage(profileImage),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Mahfuj',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            const Text(
+              'Mahfuj@gmail.com',
+              style: TextStyle(color: Colors.grey),
+            ),
+            const SizedBox(height: 24),
 
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: const [
-              Text(
-                'Settings',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
+            // Personal Info Button
+            _buildButtonCard(
+              context,
+              title: 'Personal info',
+              icon: Icons.person,
+              onTap: () {},
+            ),
+
+            const SizedBox(height: 16),
+
+            // Settings Group 1
+            _buildSettingsGroup([
+              _buildSettingsItem(
+                icon: Icons.security,
+                title: 'Password and security',
+                onTap: () {},
               ),
-              SizedBox(width: 8),
-              Icon(
-                Icons.settings,
-                color: AppColors.primary,
-                size: 24,
+              _buildSettingsItem(
+                icon: Icons.download,
+                title: 'Downloads',
+                onTap: () {},
               ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Account',
-            style: TextStyle(
-              fontSize: 18,
-              color: AppColors.textSecondary,
-            ),
-          ),
-        ],
+              _buildSettingsItem(
+                icon: Icons.palette,
+                title: 'Themes',
+                onTap: () {},
+              ),
+              _buildSettingsItem(
+                icon: Icons.notifications,
+                title: 'NOtifications',
+                onTap: () {},
+              ),
+              _buildSettingsItem(
+                icon: Icons.privacy_tip,
+                title: 'Privacy',
+                onTap: () {},
+              ),
+            ]),
+
+            const SizedBox(height: 16),
+
+            // Settings Group 2
+            _buildSettingsGroup([
+              _buildSettingsItem(
+                icon: Icons.notifications,
+                title: 'Notifications',
+                onTap: () {},
+              ),
+              _buildSettingsItem(
+                icon: Icons.help,
+                title: 'Help',
+                onTap: () {},
+              ),
+              _buildSettingsItem(
+                icon: Icons.info,
+                title: 'About',
+                onTap: () {},
+              ),
+            ]),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildAccountSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 36,
-            backgroundColor: AppColors.secondary,
-            child: Icon(
-              Icons.person,
-              size: 40,
-              color: AppColors.primary,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'User',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Personal Info',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_forward_ios, color: AppColors.primary),
-            onPressed: () {
-            },
-          ),
-        ],
+  // Widget for the personal info button
+  Widget _buildButtonCard(BuildContext context,
+      {required String title,
+      required IconData icon,
+      required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.grey),
+            const SizedBox(width: 12),
+            Text(title,
+                style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildSettingsSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Settings',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 16),
-          _buildSettingsItem(
-            icon: Icons.download,
-            title: 'Downloads',
-            trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.textSecondary),
-            onTap: () {
-              // Navigate to downloads page
-            },
-          ),
-          _buildSettingsItem(
-            icon: Icons.palette,
-            title: 'Themes',
-            trailing: Switch(
-              value: false,
-              activeColor: AppColors.primary,
-              onChanged: (value) {
-              },
-            ),
-          ),
-          _buildSettingsItem(
-            icon: Icons.notifications,
-            title: 'Notifications',
-            trailing: Switch(
-              value: true,
-              activeColor: AppColors.primary,
-              onChanged: (value) {
-              },
-            ),
-          ),
-          _buildSettingsItem(
-            icon: Icons.policy,
-            title: 'Privacy Policy',
-            trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.textSecondary),
-            onTap: () {
-              // Navigate to privacy policy page
-            },
-          ),
-          _buildSettingsItem(
-            icon: Icons.help_outline,
-            title: 'Help',
-            trailing: const Icon(Icons.arrow_forward_ios, color: AppColors.textSecondary),
-            onTap: () {
-            },
-          ),
-        ],
+  // Widget for grouped list of tiles
+  Widget _buildSettingsGroup(List<Widget> children) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
       ),
+      child: Column(children: children),
     );
   }
 
+  // Each setting tile
   Widget _buildSettingsItem({
     required IconData icon,
     required String title,
-    required Widget trailing,
-    VoidCallback? onTap,
+    required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.primary),
-      title: Text(
-        title,
-        style: const TextStyle(fontSize: 16, color: AppColors.textPrimary),
-      ),
-      trailing: trailing,
       onTap: onTap,
+      leading: Icon(icon, color: Colors.grey[700]),
+      title: Text(title),
+      trailing:
+          const Icon(Icons.arrow_forward_ios, size: 16),
     );
   }
 }
