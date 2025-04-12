@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
-import 'package:smart_learn/screens/course_details_page.dart';
+import 'package:smart_learn/screens/all_courses_page.dart'; // Import AllCoursesPage
+import 'package:smart_learn/screens/my_courses_page.dart'; // Import MyCoursesPage
+import 'package:smart_learn/screens/course_details_page.dart'; // Import CourseDetailsPage
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // Removed the bottom navigation bar as it's handled in main_screen.dart
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -27,11 +28,21 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16),
               _buildCategories(),
               const SizedBox(height: 16),
-              _buildSectionTitle('All Course', () {}),
+              _buildSectionTitle('All Course', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AllCoursesPage()), // Navigate to AllCoursesPage
+                );
+              }),
               const SizedBox(height: 16),
               _buildCourseList(),
               const SizedBox(height: 16),
-              _buildSectionTitle('My Course', () {}),
+              _buildSectionTitle('My Course', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyCoursesPage()), // Navigate to MyCoursesPage
+                );
+              }),
               const SizedBox(height: 16),
               _buildCourseList(),
             ],
@@ -41,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Header widget
   Widget _buildHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Search bar widget
   Widget _buildSearchBar() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -82,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Categories widget
   Widget _buildCategories() {
     final categories = ['CSE332', 'CSE441', 'MAT226', 'GED111'];
 
@@ -109,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  
   Widget _buildSectionTitle(String title, VoidCallback onSeeAllPressed) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,8 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Course list widget
   Widget _buildCourseList() {
-    // Using placeholders since course1.png and course2.png might not exist
     final courses = [
       {
         'title': 'Compiler Design',
@@ -180,7 +195,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Using a placeholder container instead of an image
                   Container(
                     height: 100,
                     width: double.infinity,
