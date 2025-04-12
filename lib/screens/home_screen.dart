@@ -15,7 +15,98 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            appBar: AppBar(
+        title: Text(
+          "Welcome Home",
+          style: TextStyle(
+            color: Colors
+                .white, // 🔵 Change to your desired color
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
+          ),
+        ),
+        elevation: 4.0,
+        backgroundColor: Theme.of(context).primaryColor,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text("Mahfuj"),
+              accountEmail: Text("mahfuj@gmail.com"),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://i.pravatar.cc/150?img=3'),
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home,
+                  color: Colors.blueAccent),
+              title: Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.school,
+                  color: Colors.deepPurple),
+              title: Text('My Courses'),
+              onTap: () {
+                print("Settings clicked");
+              },
+            ),
+            ListTile(
+              leading:
+                  Icon(Icons.bookmark, color: Colors.teal),
+              title: Text('Saved Notes'),
+              onTap: () {
+                print("Settings clicked");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.folder_copy_rounded,
+                  color: Colors.orangeAccent),
+              title: Text('My Materials'),
+              onTap: () {
+                print("Settings clicked");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings,
+                  color: Colors.grey.shade700),
+              title: Text('Settings'),
+              onTap: () {
+                print("Settings clicked");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.info,
+                  color: Colors.indigoAccent),
+              title: Text('About'),
+              onTap: () {
+                print("About clicked");
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.logout,
+                  color: Colors.redAccent),
+              title: Text('Logout'),
+              onTap: () {
+                print("Logout clicked");
+              },
+            ),
+          ],
+        ),
+      ), // 👈 This closing bracket was missing!
+
       backgroundColor: Colors.white,
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),

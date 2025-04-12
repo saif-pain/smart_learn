@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-  
+
   final List<Widget> _screens = [
     const HomeScreen(),
     const TopicsPage(),
@@ -56,16 +56,17 @@ class _MainScreenState extends State<MainScreen> {
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,
-            backgroundColor: Colors.white,
-            selectedItemColor: AppColors.primary,
-            unselectedItemColor: Colors.grey[400],
+            backgroundColor: Theme.of(context).primaryColor,
+            selectedItemColor:
+                const Color.fromARGB(255, 78, 185, 201),
+            unselectedItemColor: Colors.white,
             showSelectedLabels: true,
             showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,
             elevation: 0,
             selectedLabelStyle: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              fontSize: 13,
             ),
             unselectedLabelStyle: const TextStyle(
               fontWeight: FontWeight.normal,
@@ -73,19 +74,27 @@ class _MainScreenState extends State<MainScreen> {
             ),
             items: [
               BottomNavigationBarItem(
-                icon: Icon(_selectedIndex == 0 ? Icons.home : Icons.home_outlined),
+                icon: Icon(_selectedIndex == 0
+                    ? Icons.home
+                    : Icons.home_outlined),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(_selectedIndex == 1 ? Icons.book : Icons.book_outlined),
+                icon: Icon(_selectedIndex == 1
+                    ? Icons.book
+                    : Icons.book_outlined),
                 label: 'Courses',
               ),
               BottomNavigationBarItem(
-                icon: Icon(_selectedIndex == 2 ? Icons.settings : Icons.settings_outlined),
+                icon: Icon(_selectedIndex == 2
+                    ? Icons.settings
+                    : Icons.settings_outlined),
                 label: 'Settings',
               ),
               BottomNavigationBarItem(
-                icon: Icon(_selectedIndex == 3 ? Icons.person : Icons.person_outlined),
+                icon: Icon(_selectedIndex == 3
+                    ? Icons.person
+                    : Icons.person_outlined),
                 label: 'Profile',
               ),
             ],

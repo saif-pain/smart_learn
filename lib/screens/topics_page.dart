@@ -6,33 +6,95 @@ class TopicsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text(
-          'Topics',
+        title: Text(
+          "Topics",
           style: TextStyle(
-            fontSize: 20,
+            color: Colors.white,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            letterSpacing: 1.2,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.black),
-            onPressed: () {
-              // Handle notifications action
-            },
-          ),
-        ],
+        elevation: 4.0,
+        backgroundColor: Theme.of(context).primaryColor,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text("Mahfuj"),
+              accountEmail: Text("mahfuj@gmail.com"),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://i.pravatar.cc/150?img=3'),
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home,
+                  color: Colors.blueAccent),
+              title: Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.school,
+                  color: Colors.deepPurple),
+              title: Text('My Courses'),
+              onTap: () {
+                print("Settings clicked");
+              },
+            ),
+            ListTile(
+              leading:
+                  Icon(Icons.bookmark, color: Colors.teal),
+              title: Text('Saved Notes'),
+              onTap: () {
+                print("Settings clicked");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.folder_copy_rounded,
+                  color: Colors.orangeAccent),
+              title: Text('My Materials'),
+              onTap: () {
+                print("Settings clicked");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings,
+                  color: Colors.grey.shade700),
+              title: Text('Settings'),
+              onTap: () {
+                print("Settings clicked");
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.info,
+                  color: Colors.indigoAccent),
+              title: Text('About'),
+              onTap: () {
+                print("About clicked");
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.logout,
+                  color: Colors.redAccent),
+              title: Text('Logout'),
+              onTap: () {
+                print("Logout clicked");
+              },
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -96,15 +158,22 @@ class TopicsPage extends StatelessWidget {
   Widget _buildTopicsGrid() {
     final topics = [
       {'title': 'Data Communication', 'color': Colors.blue},
-      {'title': 'Basic Electronics', 'color': Colors.orange},
+      {
+        'title': 'Basic Electronics',
+        'color': Colors.orange
+      },
       {'title': 'Basic Mathematics', 'color': Colors.green},
-      {'title': 'Electrical Circuits', 'color': Colors.purple},
+      {
+        'title': 'Electrical Circuits',
+        'color': Colors.purple
+      },
       {'title': 'Art Of Living', 'color': Colors.red},
     ];
 
     return Expanded(
       child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
