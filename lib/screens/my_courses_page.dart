@@ -20,11 +20,11 @@ class MyCoursesPage extends StatelessWidget {
       },
       {
         'title': 'Mobile App Design Lab',
-        'image': 'assets/images/MAD.png', 
+        'image': 'assets/images/mad_lab.png', 
         'progress': 0.7,
       },
       {
-        'title': 'Object Oriented Programming',
+        'title': 'Artificial Intelligence',
         'image': 'assets/images/opp.png',
         'progress': 0.8,
       },
@@ -33,7 +33,16 @@ class MyCoursesPage extends StatelessWidget {
         'image': 'assets/images/cao.png',
         'progress': 0.9,
       },
-      // More will be added
+      {
+        'title': 'Artificial Intelligence Lab',
+        'image': 'assets/images/ai_lab.png',
+        'progress': 0.9,
+      },
+      {
+        'title': 'Compiler Design Lab',
+        'image': 'assets/images/cd_lab.png',
+        'progress': 0.9,
+      }
     ];
 
     return Scaffold(

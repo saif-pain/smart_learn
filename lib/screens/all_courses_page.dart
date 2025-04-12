@@ -20,17 +20,57 @@ class AllCoursesPage extends StatelessWidget {
       },
       {
         'title': 'Mobile App Design Lab',
-        'image': 'assets/images/MAD.png', 
+        'image': 'assets/images/mad_lab.png', 
         'progress': 0.7,
       },
       {
-        'title': 'Object Oriented Programming',
+        'title': 'Artificial Intelligence',
         'image': 'assets/images/opp.png',
         'progress': 0.8,
       },
       {
         'title': 'Computer Architecture & Organization',
         'image': 'assets/images/cao.png',
+        'progress': 0.9,
+      },
+      {
+        'title': 'Basic Physics',
+        'image': 'assets/images/phy.png',
+        'progress': 0.5,
+      },
+      {
+        'title': 'Introduction to Biology and chemistry for Computation',
+        'image': 'assets/images/bio_com.png',
+        'progress': 0.6,
+      },
+      {
+        'title': 'Basic Physics Lab',
+        'image': 'assets/images/phy_lab.png',
+        'progress': 0.3,
+      },
+      {
+        'title': 'Computer Fundamentals',
+        'image': 'assets/images/com_f.png',
+        'progress': 0.7,
+      },
+      {
+        'title': 'Basic Functional English and English Spoken',
+        'image': 'assets/images/basic_eng.png',
+        'progress': 0.5,
+      },
+      {
+        'title': 'Basic Mathematics',
+        'image': 'assets/images/mat.png',
+        'progress': 0.4,
+      },
+      {
+        'title': 'Mathematics-II',
+        'image': 'assets/images/mat2.png',
+        'progress': 0.8,
+      },
+      {
+        'title': 'Writing and Comprehension',
+        'image': 'assets/images/wr.png',
         'progress': 0.9,
       },
       // More will be added later
@@ -50,7 +90,8 @@ class AllCoursesPage extends StatelessWidget {
           final double progress = course['progress'] as double;
 
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
