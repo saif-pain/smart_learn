@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
-import 'package:smart_learn/screens/lessons_page.dart';
+import 'package:smart_learn/screens/resources_page.dart';
 import 'package:smart_learn/screens/que_page.dart';
+import 'package:smart_learn/screens/home_screen.dart';
+import 'package:smart_learn/screens/course_details_page.dart'; // Added import for CourseDetailsPage
 
 class QuestionsPage extends StatelessWidget {
   final String title;
@@ -19,7 +21,14 @@ class QuestionsPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back,
               color: AppColors.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            // Return to home screen instead of previous screen
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              (Route<dynamic> route) => false,
+            );
+          },
         ),
         title: Text(
           title,
@@ -71,15 +80,27 @@ class QuestionsPage extends StatelessWidget {
   }
 
   Widget _buildCourseBanner() {
+    String bannerImage = 'assets/images/onboarding1.png';
+    
+    // Select appropriate banner image based on course title
+    if (title.toLowerCase().contains('mobile')) {
+      bannerImage = 'assets/images/MAD.png';
+    } else if (title.toLowerCase().contains('compiler')) {
+      bannerImage = 'assets/images/compiler.png';
+    } else if (title.toLowerCase().contains('math')) {
+      bannerImage = 'assets/images/mat.png';
+    } else if (title.toLowerCase().contains('physics')) {
+      bannerImage = 'assets/images/phy.png';
+    }
+    
     return Stack(
       children: [
         Container(
           width: double.infinity,
           height: 200,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(
-                  'assets/images/onboarding1.png'),
+              image: AssetImage(bannerImage),
               fit: BoxFit.cover,
             ),
           ),
@@ -105,15 +126,24 @@ class QuestionsPage extends StatelessWidget {
         children: [
           _buildTabItem('Overview', isSelected: false,
               onTap: () {
-            Navigator.pop(
-                context); 
-          }),
-          _buildTabItem('Lessons', isSelected: false,
-              onTap: () {
-            Navigator.push(
+            // Navigate to CourseDetailsPage (Overview) and specify it's not coming from home
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => LessonsPage(
+                builder: (context) => CourseDetailsPage(
+                  title: title,
+                  fromHome: false, // Specify this navigation is not from home
+                ),
+              ),
+            );
+          }),
+          _buildTabItem('Resources', isSelected: false,
+              onTap: () {
+            // Navigate to ResourcesPage
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResourcesPage(
                   title: title,
                 ),
               ),

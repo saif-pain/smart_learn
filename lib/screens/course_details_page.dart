@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
-import 'package:smart_learn/screens/lessons_page.dart';
+import 'package:smart_learn/screens/resources_page.dart';
 import 'package:smart_learn/screens/questions.dart';
+import 'package:smart_learn/screens/home_screen.dart';
 
-
+// Adding a parameter to track navigation source
 class CourseDetailsPage extends StatelessWidget {
   final String title;
+  final bool fromHome;
   
-  const CourseDetailsPage({Key? key, required this.title}) : super(key: key);
+  const CourseDetailsPage({
+    Key? key, 
+    required this.title,
+    this.fromHome = true, // Default is coming from home
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,17 @@ class CourseDetailsPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () {
-            Navigator.pop(context);
+            // Only return to home if we came from home
+            if (fromHome) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                (Route<dynamic> route) => false,
+              );
+            } else {
+              // Otherwise just go back to previous screen
+              Navigator.pop(context);
+            }
           },
         ),
       ),
@@ -47,6 +63,19 @@ class CourseDetailsPage extends StatelessWidget {
   }
 
   Widget _buildCourseBanner() {
+    // Select appropriate banner image based on course title
+    String bannerImage = 'assets/images/onboarding1.png';
+    
+    if (title.toLowerCase().contains('mobile')) {
+      bannerImage = 'assets/images/MAD.png';
+    } else if (title.toLowerCase().contains('compiler')) {
+      bannerImage = 'assets/images/compiler.png';
+    } else if (title.toLowerCase().contains('math')) {
+      bannerImage = 'assets/images/mat.png';
+    } else if (title.toLowerCase().contains('physics')) {
+      bannerImage = 'assets/images/phy.png';
+    }
+    
     return Stack(
       children: [
         Container(
@@ -54,9 +83,8 @@ class CourseDetailsPage extends StatelessWidget {
           height: 200,
           decoration: BoxDecoration(
             color: AppColors.secondary,
-            image: const DecorationImage(
-              // Using a placeholder since course_banner.png might not exist
-              image: AssetImage('assets/images/onboarding1.png'),
+            image: DecorationImage(
+              image: AssetImage(bannerImage),
               fit: BoxFit.cover,
             ),
           ),
@@ -85,12 +113,13 @@ class CourseDetailsPage extends StatelessWidget {
         children: [
           _buildTabItem('Overview',
               isSelected: true, onTap: () {}),
-          _buildTabItem('Lessons', isSelected: false,
+          _buildTabItem('Resources', isSelected: false,
               onTap: () {
-            Navigator.push(
+            // Use pushReplacement to replace the current page in the stack
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => LessonsPage(
+                builder: (context) => ResourcesPage(
                   title: title,
                 ),
               ),
@@ -98,7 +127,8 @@ class CourseDetailsPage extends StatelessWidget {
           }),
           _buildTabItem('Questions', isSelected: false,
               onTap: () {
-            Navigator.push(
+            // Use pushReplacement to replace the current page in the stack
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => QuestionsPage(
@@ -206,8 +236,8 @@ class CourseDetailsPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildDetailItem(Icons.book, '7 Chapters'),
-            _buildDetailItem(Icons.menu_book, '2 Books'),
+            _buildDetailItem(Icons.language, 'Online Resources'), // Changed from 'Chapters' to 'Online Resources'
+            _buildDetailItem(Icons.menu_book, 'Reference Materials'), // Changed from 'Books' to 'Reference Materials'
           ],
         ),
       ),
@@ -278,11 +308,11 @@ class CourseDetailsPage extends StatelessWidget {
         width: double.infinity,
         child: ElevatedButton(
           onPressed: () {
-            // Navigate to LessonsPage when START COURSE is pressed
+            // Navigate to ResourcesPage when button is pressed
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LessonsPage(
+                builder: (context) => ResourcesPage( // Changed from LessonsPage to ResourcesPage
                   title: title,
                 ),
               ),
@@ -296,7 +326,7 @@ class CourseDetailsPage extends StatelessWidget {
             ),
           ),
           child: const Text(
-            'START COURSE',
+            'EXPLORE RESOURCES', // Changed from 'START COURSE' to 'EXPLORE RESOURCES'
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

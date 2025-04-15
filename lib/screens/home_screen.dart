@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final StudentService _studentService = StudentService();
   String _studentName = 'Student';
   bool _isLoading = true;
+  int _selectedIndex = 0; // Track selected tab index
 
   @override
   void initState() {
@@ -200,6 +201,49 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+      ),
+      // Add bottom navigation bar
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+          
+          // Handle navigation based on selected index
+          switch(index) {
+            case 0: // Home - already on home, do nothing
+              break;
+            case 1: // Courses
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AllCoursesPage()),
+              );
+              break;
+            case 2: // Profile/Settings
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
+              );
+              break;
+          }
+        },
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: 'Courses',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
