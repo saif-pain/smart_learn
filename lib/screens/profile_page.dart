@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
 import 'package:smart_learn/screens/edit_profile_page.dart';
-import 'package:smart_learn/screens/academic_results_page.dart'; // Import the new page
+import 'package:smart_learn/screens/academic_results_page.dart';
+import 'package:smart_learn/services/student_service.dart';
+import 'package:smart_learn/models/student_model.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+  State<ProfilePage> createState() => _ProfilePageState();
+}
 
+class _ProfilePageState extends State<ProfilePage> {
+  final StudentService _studentService = StudentService();
+  Student? _studentInfo;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudentInfo();
+  }
+
+  Future<void> _loadStudentInfo() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final student = await _studentService.getCurrentStudent();
+      if (mounted) {
+        setState(() {
+          _studentInfo = student;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading student info: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE9DED3),
       appBar: AppBar(
@@ -27,26 +65,27 @@ class ProfilePage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildProfileHeader(context),
-              const SizedBox(height: 24),
-              _buildAboutSection(),
-              const SizedBox(height: 16),
-              _buildSkillsSection(),
-              const SizedBox(height: 24),
-              _buildAcademicResultsSection(context),
-              const SizedBox(height: 24),
-              _buildEnrolledCoursesSection(),
-            ],
-          ),
-        ),
-      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildProfileHeader(context),
+                    const SizedBox(height: 24),
+                    _buildAboutSection(),
+                    const SizedBox(height: 16),
+                    _buildSkillsSection(),
+                    const SizedBox(height: 24),
+                    _buildAcademicResultsSection(context),
+                    const SizedBox(height: 24),
+                    _buildEnrolledCoursesSection(),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 
@@ -94,12 +133,28 @@ class ProfilePage extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        const Text(
-          'Name Here',
-          style: TextStyle(
+        Text(
+          _studentInfo?.studentName ?? 'Student Name',
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: AppColors.textPrimary,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          _studentInfo?.studentId ?? 'Student ID',
+          style: const TextStyle(
+            fontSize: 14,
+            color: AppColors.textSecondary,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          "${_studentInfo?.departmentName ?? 'Department'}, ${_studentInfo?.progShortName ?? 'Program'}",
+          style: const TextStyle(
+            fontSize: 14,
+            color: AppColors.textSecondary,
           ),
         ),
       ],
@@ -107,10 +162,16 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildAboutSection() {
+    final String aboutText = 'Computer Science & Engineering student at '
+        '${_studentInfo?.campusName ?? 'Daffodil International University'} (DIU), '
+        'batch ${_studentInfo?.batchNo ?? '221'}. '
+        'Passionate about coding, problem-solving, and exploring new technologies. '
+        'Always eager to learn, grow, and build impactful solutions.';
+        
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text(
+      children: [
+        const Text(
           'About Me',
           style: TextStyle(
             fontSize: 16,
@@ -118,12 +179,10 @@ class ProfilePage extends StatelessWidget {
             color: AppColors.textPrimary,
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
-          'Computer Science & Engineering student at Daffodil International University (DIU), batch 221. '
-          'Passionate about coding, problem-solving, and exploring new technologies. '
-          'Always eager to learn, grow, and build impactful solutions.',
-          style: TextStyle(
+          aboutText,
+          style: const TextStyle(
             fontSize: 14,
             color: AppColors.textSecondary,
           ),
@@ -173,8 +232,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildAcademicResultsSection(
-      BuildContext context) {
+  Widget _buildAcademicResultsSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -194,8 +252,7 @@ class ProfilePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        const AcademicResultsPage(),
+                    builder: (context) => const AcademicResultsPage(),
                   ),
                 );
               },

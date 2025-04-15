@@ -1,16 +1,53 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_learn/screens/login_screen.dart';
+import 'package:smart_learn/services/student_service.dart';
 
-class TopicsPage extends StatelessWidget {
+class TopicsPage extends StatefulWidget {
   const TopicsPage({Key? key}) : super(key: key);
+
+  @override
+  State<TopicsPage> createState() => _TopicsPageState();
+}
+
+class _TopicsPageState extends State<TopicsPage> {
+  final StudentService _studentService = StudentService();
+  String _studentName = 'Student';
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudentInfo();
+  }
+
+  // Load student information when page initializes
+  Future<void> _loadStudentInfo() async {
+    try {
+      final name = await _studentService.getStudentName();
+
+      if (mounted) {
+        setState(() {
+          _studentName = name;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading student info: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE9DED3),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Topics",
           style: TextStyle(
             color: Colors.white,
@@ -21,50 +58,50 @@ class TopicsPage extends StatelessWidget {
         ),
         elevation: 4.0,
         backgroundColor: Theme.of(context).primaryColor,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: Drawer(
         child: Column(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text("Mahfuj"),
-              accountEmail: Text("mahfuj@gmail.com"),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://i.pravatar.cc/150?img=3'),
+              accountName: Text(_isLoading ? "Loading..." : _studentName),
+              accountEmail: null, // Removed email display
+              currentAccountPicture: const CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: Icon(Icons.person, size: 50, color: Colors.white),
               ),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home,
+              leading: const Icon(Icons.home,
                   color: Colors.blueAccent),
-              title: Text('Home'),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.school,
+              leading: const Icon(Icons.school,
                   color: Colors.deepPurple),
-              title: Text('My Courses'),
+              title: const Text('My Courses'),
               onTap: () {
                 print("Settings clicked");
               },
             ),
             ListTile(
               leading:
-                  Icon(Icons.bookmark, color: Colors.teal),
-              title: Text('Saved Notes'),
+                  const Icon(Icons.bookmark, color: Colors.teal),
+              title: const Text('Saved Notes'),
               onTap: () {
                 print("Settings clicked");
               },
             ),
             ListTile(
-              leading: Icon(Icons.folder_copy_rounded,
+              leading: const Icon(Icons.folder_copy_rounded,
                   color: Colors.orangeAccent),
-              title: Text('My Materials'),
+              title: const Text('My Materials'),
               onTap: () {
                 print("Settings clicked");
               },
@@ -72,24 +109,24 @@ class TopicsPage extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.settings,
                   color: Colors.grey.shade700),
-              title: Text('Settings'),
+              title: const Text('Settings'),
               onTap: () {
                 print("Settings clicked");
               },
             ),
             ListTile(
-              leading: Icon(Icons.info,
+              leading: const Icon(Icons.info,
                   color: Colors.indigoAccent),
-              title: Text('About'),
+              title: const Text('About'),
               onTap: () {
                 print("About clicked");
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.logout,
+              leading: const Icon(Icons.logout,
                   color: Colors.redAccent),
-              title: Text('Logout'),
+              title: const Text('Logout'),
               onTap: () async {
                
                 await FirebaseAuth.instance.signOut();

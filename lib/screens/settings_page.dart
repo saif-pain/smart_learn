@@ -1,13 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:smart_learn/services/student_service.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final profileImage =
-        'assets/images/pp.jpg'; // Replace with actual image
+  State<SettingsPage> createState() => _SettingsPageState();
+}
 
+class _SettingsPageState extends State<SettingsPage> {
+  final StudentService _studentService = StudentService();
+  String _studentName = 'Loading...';
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudentInfo();
+  }
+
+  // Load student information when page initializes
+  Future<void> _loadStudentInfo() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final name = await _studentService.getStudentName();
+
+      if (mounted) {
+        setState(() {
+          _studentName = name;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading student info: $e');
+      if (mounted) {
+        setState(() {
+          _studentName = 'Student';
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(
           0xFFE9DED3), // Match the background style
@@ -19,7 +58,6 @@ class SettingsPage extends StatelessWidget {
                 color: Colors.black,
                 fontWeight: FontWeight.w700)),
         centerTitle: true,
-        // Remove back button for tabs in the main screen's bottom navigation
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -27,21 +65,25 @@ class SettingsPage extends StatelessWidget {
         child: Column(
           children: [
             // Profile Header
-            CircleAvatar(
+            const CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage(profileImage),
+              backgroundColor: Colors.grey,
+              child: Icon(Icons.person, size: 50, color: Colors.white),
             ),
             const SizedBox(height: 12),
-            const Text(
-              'Mahfuj',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            const Text(
-              'Mahfuj@gmail.com',
-              style: TextStyle(color: Colors.grey),
-            ),
+            if (_isLoading)
+              const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            else
+              Text(
+                _studentName,
+                style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
             const SizedBox(height: 24),
 
             // Personal Info Button

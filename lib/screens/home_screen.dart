@@ -6,6 +6,7 @@ import 'package:smart_learn/screens/login_screen.dart';
 import 'package:smart_learn/screens/my_courses_page.dart'; // Import MyCoursesPage
 import 'package:smart_learn/screens/course_details_page.dart';
 import 'package:smart_learn/screens/settings_page.dart'; // Import CourseDetailsPage
+import 'package:smart_learn/services/student_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,15 +16,54 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final StudentService _studentService = StudentService();
+  String _studentName = 'Student';
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudentInfo();
+  }
+
+  // Load student information when page initializes
+  Future<void> _loadStudentInfo() async {
+    try {
+      final name = await _studentService.getStudentName();
+      
+      if (mounted) {
+        setState(() {
+          _studentName = name;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading student info: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  // Get first two words of the student name
+  String _getShortName() {
+    final nameParts = _studentName.split(' ');
+    if (nameParts.length > 1) {
+      return '${nameParts[0]} ${nameParts[1]}';
+    }
+    return _studentName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Welcome Home",
           style: TextStyle(
-            color: Colors
-                .white, // 🔵 Change to your desired color
+            color: Colors.white,
             fontSize: 22,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
@@ -31,17 +71,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         elevation: 4.0,
         backgroundColor: Theme.of(context).primaryColor,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: Drawer(
         child: Column(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text("Mahfuj"),
-              accountEmail: Text("mahfuj@gmail.com"),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://i.pravatar.cc/150?img=3'),
+              accountName: Text(_isLoading ? "Loading..." : _studentName),
+              accountEmail: null, // Removed email display
+              currentAccountPicture: const CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: Icon(Icons.person, size: 50, color: Colors.white),
               ),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
@@ -168,10 +208,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
-          'Welcome Name',
-          style: TextStyle(
+          _isLoading ? 'Welcome Student' : 'Welcome ${_getShortName()}',
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: AppColors.textPrimary,

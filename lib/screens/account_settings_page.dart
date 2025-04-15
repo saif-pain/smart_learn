@@ -4,9 +4,51 @@ import 'package:smart_learn/core/shared_prefs.dart';
 import 'package:smart_learn/screens/login_screen.dart';
 import 'package:smart_learn/screens/profile_page.dart';
 import 'package:smart_learn/screens/academic_results_page.dart';
+import 'package:smart_learn/services/student_service.dart';
 
-class AccountSettingsPage extends StatelessWidget {
+class AccountSettingsPage extends StatefulWidget {
   const AccountSettingsPage({Key? key}) : super(key: key);
+
+  @override
+  State<AccountSettingsPage> createState() => _AccountSettingsPageState();
+}
+
+class _AccountSettingsPageState extends State<AccountSettingsPage> {
+  final StudentService _studentService = StudentService();
+  String _studentName = 'Loading...';
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudentInfo();
+  }
+
+  // Load student information when page initializes
+  Future<void> _loadStudentInfo() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final name = await _studentService.getStudentName();
+
+      if (mounted) {
+        setState(() {
+          _studentName = name;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error loading student info: $e');
+      if (mounted) {
+        setState(() {
+          _studentName = 'Student';
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +109,27 @@ class AccountSettingsPage extends StatelessWidget {
           ),
         ),
         Column(
-          children: const [
-            CircleAvatar(
+          children: [
+            const CircleAvatar(
               radius: 50,
               backgroundColor: Colors.grey,
               child: Icon(Icons.person, size: 50, color: Colors.white),
             ),
+            const SizedBox(height: 8),
+            if (_isLoading)
+              const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            else
+              Text(
+                _studentName,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
           ],
         ),
       ],
