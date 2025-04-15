@@ -41,9 +41,9 @@ class SemesterResultsPage extends StatelessWidget {
             children: [
               _buildStudentProfile(),
               const SizedBox(height: 24),
-              _buildResultsTable(),
-              const SizedBox(height: 24),
               _buildSemesterSummary(),
+              const SizedBox(height: 24),
+              _buildResultsTable(),
             ],
           ),
         ),
@@ -107,11 +107,6 @@ class SemesterResultsPage extends StatelessWidget {
               _buildInfoRow(Icons.people, 'Batch', 'Batch ${studentInfo!.batchNo}'),
               _buildInfoRow(Icons.location_on, 'Campus', studentInfo!.campusName),
             ],
-            _buildInfoRow(
-              Icons.calendar_today, 
-              'Semester', 
-              semesterResult.getFormattedSemesterName()
-            ),
           ],
         ),
       ),

@@ -1,0 +1,20 @@
+                        -H/home/mohimenul/mad project/smart_learn/flutter/packages/flutter_tools/gradle/src/main/groovy
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_SYSTEM_VERSION=23
+-DANDROID_PLATFORM=android-23
+-DANDROID_ABI=arm64-v8a
+-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a
+-DANDROID_NDK=/home/mohimenul/Android/Sdk/ndk/26.3.11579264
+-DCMAKE_ANDROID_NDK=/home/mohimenul/Android/Sdk/ndk/26.3.11579264
+-DCMAKE_TOOLCHAIN_FILE=/home/mohimenul/Android/Sdk/ndk/26.3.11579264/build/cmake/android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=/usr/bin/ninja
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/home/mohimenul/mad-last/smart_learn/build/app/intermediates/cxx/RelWithDebInfo/481z4e6f/obj/arm64-v8a
+-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/home/mohimenul/mad-last/smart_learn/build/app/intermediates/cxx/RelWithDebInfo/481z4e6f/obj/arm64-v8a
+-DCMAKE_BUILD_TYPE=RelWithDebInfo
+-B/home/mohimenul/mad-last/smart_learn/android/app/.cxx/RelWithDebInfo/481z4e6f/arm64-v8a
+-GNinja
+-Wno-dev
+--no-warn-unused-cli
+                        Build command args: []
+                        Version: 2
