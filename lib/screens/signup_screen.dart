@@ -36,19 +36,21 @@ class _SignupScreenState extends State<SignupScreen> {
       setState(() {
         _isLoading = true;
       });
-      
+
       try {
         // Create the user account with Firebase Authentication
-        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
         );
-        
+
         // Store the student ID for future use
         await SharedPrefs.saveStudentId(studentIdController.text.trim());
-        
+
         // Update the user's display name in Firebase
-        await userCredential.user?.updateDisplayName(nameController.text.trim());
+        await userCredential.user
+            ?.updateDisplayName(nameController.text.trim());
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("✅ Account created successfully!")),
@@ -74,7 +76,8 @@ class _SignupScreenState extends State<SignupScreen> {
             errorMsg = e.message ?? 'Signup failed';
         }
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMsg)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(errorMsg)));
       } finally {
         if (mounted) {
           setState(() {
@@ -107,11 +110,13 @@ class _SignupScreenState extends State<SignupScreen> {
                 const Text(
                   "Sign Up 📝",
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 const Text(
                   "Register With Your DIU Student\nEmail And Student ID",
                   style: TextStyle(fontSize: 14, color: Colors.grey),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
@@ -197,19 +202,19 @@ class _SignupScreenState extends State<SignupScreen> {
                       backgroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    child: _isLoading 
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            color: AppColors.white,
-                            strokeWidth: 2,
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              color: AppColors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : const Text(
+                            "SIGN UP",
+                            style: TextStyle(color: AppColors.white),
                           ),
-                        )
-                      : const Text(
-                          "SIGN UP",
-                          style: TextStyle(color: AppColors.white),
-                        ),
                   ),
                 ),
                 const SizedBox(height: 20),

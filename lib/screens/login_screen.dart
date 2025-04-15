@@ -26,20 +26,21 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // Remove the extract student ID method as we'll use the one entered by the user
-  
+
   void _login() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
-      
+
       String email = emailController.text.trim();
       String password = passwordController.text;
       String studentId = studentIdController.text.trim();
 
       try {
         // Sign in with Firebase
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
@@ -95,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Text(
                   "Sign in 👋",
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 const Text(
@@ -125,7 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty) return "Password required";
+                    if (value == null || value.isEmpty)
+                      return "Password required";
                     return null;
                   },
                 ),
@@ -172,19 +175,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(vertical: 20),
                     ),
-                    child: _isLoading 
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            color: AppColors.white,
-                            strokeWidth: 2,
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              color: AppColors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : const Text(
+                            "SIGN IN",
+                            style: TextStyle(color: AppColors.white),
                           ),
-                        )
-                      : const Text(
-                          "SIGN IN",
-                          style: TextStyle(color: AppColors.white),
-                        ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -197,7 +200,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => const SignupScreen()),
+                            MaterialPageRoute(
+                                builder: (_) => const SignupScreen()),
                           );
                         },
                         child: const Text(
