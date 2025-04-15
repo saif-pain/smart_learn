@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_learn/core/app_colors.dart';
+import 'package:smart_learn/core/shared_prefs.dart';
 import 'package:smart_learn/screens/main_screen.dart';
 import 'signup_screen.dart';
 import 'reset_password_screen.dart';
@@ -15,36 +16,59 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController studentIdController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
 
   bool isValidDiuEmail(String email) {
     return email.endsWith('@diu.edu.bd');
   }
 
+  // Remove the extract student ID method as we'll use the one entered by the user
+  
   void _login() async {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+      
       String email = emailController.text.trim();
       String password = passwordController.text;
+      String studentId = studentIdController.text.trim();
 
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        // Sign in with Firebase
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("✅ Logged in successfully!")),
-        );
+        // Save the student ID that was entered by the user
+        await SharedPrefs.saveStudentId(studentId);
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const MainScreen()),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("✅ Logged in successfully!")),
+          );
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const MainScreen()),
+          );
+        }
       } on FirebaseAuthException catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message ?? 'Login failed')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(e.message ?? 'Login failed')),
+          );
+        }
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       }
     }
   }
@@ -57,8 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Form(
             key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: ListView(
               children: [
                 const SizedBox(height: 20),
                 Align(
@@ -106,6 +129,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: studentIdController,
+                  decoration: const InputDecoration(
+                    labelText: "Student ID",
+                    hintText: "221-15-5133",
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Student ID required";
+                    }
+                    final pattern = RegExp(r'^\d{3}-\d{2}-\d{4}$');
+                    if (!pattern.hasMatch(value)) {
+                      return "Invalid student ID format (e.g. 221-15-5133)";
+                    }
+                    return null;
+                  },
+                ),
                 const SizedBox(height: 8),
                 Align(
                   alignment: Alignment.centerRight,
@@ -125,15 +167,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _login,
+                    onPressed: _isLoading ? null : _login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(vertical: 20),
                     ),
-                    child: const Text(
-                      "SIGN IN",
-                      style: TextStyle(color: AppColors.white),
-                    ),
+                    child: _isLoading 
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: AppColors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Text(
+                          "SIGN IN",
+                          style: TextStyle(color: AppColors.white),
+                        ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -141,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don’t Have An Account ? "),
+                      const Text("Don't Have An Account ? "),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(

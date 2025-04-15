@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_learn/core/app_colors.dart';
+import 'package:smart_learn/core/shared_prefs.dart';
 import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _SignupScreenState extends State<SignupScreen> {
       TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
 
   bool isValidDiuEmail(String email) {
     return email.endsWith('@diu.edu.bd');
@@ -30,41 +32,58 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _register() async {
-  if (_formKey.currentState!.validate()) {
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+      
+      try {
+        // Create the user account with Firebase Authentication
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+        
+        // Store the student ID for future use
+        await SharedPrefs.saveStudentId(studentIdController.text.trim());
+        
+        // Update the user's display name in Firebase
+        await userCredential.user?.updateDisplayName(nameController.text.trim());
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("✅ Account created successfully!")),
-      );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("✅ Account created successfully!")),
+        );
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
-      );
-    } on FirebaseAuthException catch (e) {
-      String errorMsg;
-      switch (e.code) {
-        case 'email-already-in-use':
-          errorMsg = 'This email is already in use.';
-          break;
-        case 'weak-password':
-          errorMsg = 'Password should be at least 6 characters.';
-          break;
-        case 'invalid-email':
-          errorMsg = 'The email address is invalid.';
-          break;
-        default:
-          errorMsg = e.message ?? 'Signup failed';
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+        );
+      } on FirebaseAuthException catch (e) {
+        String errorMsg;
+        switch (e.code) {
+          case 'email-already-in-use':
+            errorMsg = 'This email is already in use.';
+            break;
+          case 'weak-password':
+            errorMsg = 'Password should be at least 6 characters.';
+            break;
+          case 'invalid-email':
+            errorMsg = 'The email address is invalid.';
+            break;
+          default:
+            errorMsg = e.message ?? 'Signup failed';
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMsg)));
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       }
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMsg)));
     }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -173,15 +192,24 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _register,
+                    onPressed: _isLoading ? null : _register,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    child: const Text(
-                      "SIGN UP",
-                      style: TextStyle(color: AppColors.white),
-                    ),
+                    child: _isLoading 
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: AppColors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Text(
+                          "SIGN UP",
+                          style: TextStyle(color: AppColors.white),
+                        ),
                   ),
                 ),
                 const SizedBox(height: 20),

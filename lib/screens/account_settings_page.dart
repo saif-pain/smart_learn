@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_learn/core/shared_prefs.dart';
 import 'package:smart_learn/screens/login_screen.dart';
 import 'package:smart_learn/screens/profile_page.dart';
 import 'package:smart_learn/screens/academic_results_page.dart';
@@ -149,13 +150,65 @@ class AccountSettingsPage extends StatelessWidget {
         'icon': Icons.logout,
         'title': 'Logout',
         'onTap': () async {
-          await FirebaseAuth.instance.signOut();
+          // Show confirmation dialog
+          bool confirm = await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Logout"),
+                content: const Text("Are you sure you want to logout?"),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text("Cancel"),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: const Text("Logout", style: TextStyle(color: Colors.red)),
+                  ),
+                ],
+              );
+            },
+          ) ?? false;
 
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
-            (Route<dynamic> route) => false,
-          );
+          if (confirm) {
+            // Show loading indicator
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            );
+
+            try {
+              // Clear the stored student ID
+              await SharedPrefs.clearStudentId();
+              
+              // Sign out from Firebase
+              await FirebaseAuth.instance.signOut();
+              
+              // Close loading dialog
+              Navigator.of(context).pop();
+              
+              // Navigate to login screen and remove all previous routes
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (Route<dynamic> route) => false,
+              );
+            } catch (e) {
+              // Close loading dialog
+              Navigator.of(context).pop();
+              
+              // Show error
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Logout failed: ${e.toString()}")),
+              );
+            }
+          }
         },
       },
     ];
