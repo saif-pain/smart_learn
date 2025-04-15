@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_learn/core/app_colors.dart';
 import 'package:smart_learn/screens/all_courses_page.dart'; // Import AllCoursesPage
+import 'package:smart_learn/screens/login_screen.dart';
 import 'package:smart_learn/screens/my_courses_page.dart'; // Import MyCoursesPage
-import 'package:smart_learn/screens/course_details_page.dart'; // Import CourseDetailsPage
+import 'package:smart_learn/screens/course_details_page.dart';
+import 'package:smart_learn/screens/settings_page.dart'; // Import CourseDetailsPage
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         title: Text(
           "Welcome Home",
           style: TextStyle(
@@ -81,7 +84,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.grey.shade700),
               title: Text('Settings'),
               onTap: () {
-                print("Settings clicked");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const SettingsPage(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -97,15 +106,23 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: Icon(Icons.logout,
                   color: Colors.redAccent),
               title: Text('Logout'),
-              onTap: () {
-                print("Logout clicked");
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const LoginScreen()),
+                  (Route<dynamic> route) => false,
+                );
               },
             ),
           ],
         ),
       ), // 👈 This closing bracket was missing!
 
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFE9DED3),
 
       body: SafeArea(
         child: SingleChildScrollView(
@@ -122,7 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
               _buildSectionTitle('All Course', () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AllCoursesPage()), // Navigate to AllCoursesPage
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const AllCoursesPage()), // Navigate to AllCoursesPage
                 );
               }),
               const SizedBox(height: 16),
@@ -131,7 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
               _buildSectionTitle('My Course', () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MyCoursesPage()), // Navigate to MyCoursesPage
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const MyCoursesPage()), // Navigate to MyCoursesPage
                 );
               }),
               const SizedBox(height: 16),
@@ -170,13 +191,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Row(
         children: [
-          Icon(Icons.search, color: AppColors.textSecondary),
+          Icon(Icons.search,
+              color: AppColors.textSecondary),
           const SizedBox(width: 8),
           Expanded(
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Search Here',
-                hintStyle: TextStyle(color: AppColors.textSecondary),
+                hintStyle: TextStyle(
+                    color: AppColors.textSecondary),
                 border: InputBorder.none,
               ),
             ),
@@ -188,7 +211,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Categories widget
   Widget _buildCategories() {
-    final categories = ['CSE332', 'CSE441', 'MAT226', 'GED111'];
+    final categories = [
+      'CSE332',
+      'CSE441',
+      'MAT226',
+      'GED111'
+    ];
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -196,7 +224,8 @@ class _HomeScreenState extends State<HomeScreen> {
         children: categories.map((category) {
           return Container(
             margin: const EdgeInsets.only(right: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(
+                horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: AppColors.primary,
               borderRadius: BorderRadius.circular(20),
@@ -214,8 +243,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  
-  Widget _buildSectionTitle(String title, VoidCallback onSeeAllPressed) {
+  Widget _buildSectionTitle(
+      String title, VoidCallback onSeeAllPressed) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -284,14 +313,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
                 children: [
                   Container(
                     height: 100,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: AppColors.secondary,
-                      borderRadius: const BorderRadius.vertical(
+                      borderRadius:
+                          const BorderRadius.vertical(
                         top: Radius.circular(12),
                       ),
                     ),
@@ -306,7 +337,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
                       children: [
                         Text(
                           course['title'] as String,
@@ -317,10 +349,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 8),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius:
+                              BorderRadius.circular(8),
                           child: LinearProgressIndicator(
-                            value: course['progress'] as double,
-                            backgroundColor: Colors.grey[200],
+                            value: course['progress']
+                                as double,
+                            backgroundColor:
+                                Colors.grey[200],
                             color: AppColors.primary,
                             minHeight: 6,
                           ),
