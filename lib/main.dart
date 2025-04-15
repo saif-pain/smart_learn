@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_learn/screens/login_screen.dart';
 import 'package:smart_learn/screens/main_screen.dart';
+import 'package:smart_learn/screens/onboarding_screen.dart';
 import 'package:smart_learn/screens/splash_screen.dart';
+import 'package:smart_learn/screens/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,8 +41,31 @@ class SmartLearnApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.plusJakartaSansTextTheme(),
+        // Adding platform-specific back button handling
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
       ),
-      home: const SplashScreen(),
+      // Set up proper navigation with named routes
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/main': (context) => const MainScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/onboarding': (context) => const OnboardingScreen(),
+        '/welcome': (context) => const WelcomeScreen(),
+      },
+      // Handle Android back button behavior
+      navigatorKey: GlobalKey<NavigatorState>(),
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const SplashScreen(),
+        );
+      },
     );
   }
 }

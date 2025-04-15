@@ -19,10 +19,8 @@ class SettingsPage extends StatelessWidget {
                 color: Colors.black,
                 fontWeight: FontWeight.w700)),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {},
-        ),
+        // Remove back button for tabs in the main screen's bottom navigation
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),

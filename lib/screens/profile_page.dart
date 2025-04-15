@@ -15,6 +15,8 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        // Remove back button for tabs in the main screen's bottom navigation
+        automaticallyImplyLeading: false, 
         title: const Text(
           'Profile',
           style: TextStyle(

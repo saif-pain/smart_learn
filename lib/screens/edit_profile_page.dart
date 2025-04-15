@@ -26,60 +26,69 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return WillPopScope(
+      onWillPop: () async {
+        _navigateBack(context);
+        return false;
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text(
-          'Edit Profile',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+            onPressed: () => _navigateBack(context),
           ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check, color: AppColors.primary),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                // Save profile changes
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Profile updated successfully')),
-                );
-                Navigator.pop(context);
-              }
-            },
+          title: const Text(
+            'Edit Profile',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                _buildProfilePicture(),
-                const SizedBox(height: 24),
-                _buildNameField(),
-                const SizedBox(height: 16),
-                _buildBioField(),
-                const SizedBox(height: 24),
-                _buildSkillsEditor(),
-              ],
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.check, color: AppColors.primary),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  // Save profile changes
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Profile updated successfully')),
+                  );
+                  _navigateBack(context);
+                }
+              },
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  _buildProfilePicture(),
+                  const SizedBox(height: 24),
+                  _buildNameField(),
+                  const SizedBox(height: 16),
+                  _buildBioField(),
+                  const SizedBox(height: 24),
+                  _buildSkillsEditor(),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _navigateBack(BuildContext context) {
+    // Ensure we always go back to the profile page
+    Navigator.of(context).pop();
   }
 
   Widget _buildProfilePicture() {

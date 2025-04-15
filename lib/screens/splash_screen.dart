@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_learn/core/shared_prefs.dart';
-import 'package:smart_learn/screens/onboarding_screen.dart';
-import 'package:smart_learn/screens/welcome_screen.dart';
-import 'package:smart_learn/screens/main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,10 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (currentUser != null) {
       // User is signed in, navigate directly to main screen
       if (mounted) {
-        Navigator.pushReplacement(
-          context, 
-          MaterialPageRoute(builder: (_) => const MainScreen())
-        );
+        Navigator.pushReplacementNamed(context, '/main');
       }
     } else {
       // User is not signed in, check if it's first launch
@@ -40,16 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
       if (mounted) {
         if (isFirstLaunch) {
           // Show onboarding for first-time users
-          Navigator.pushReplacement(
-            context, 
-            MaterialPageRoute(builder: (_) => const OnboardingScreen())
-          );
+          Navigator.pushReplacementNamed(context, '/onboarding');
         } else {
           // Not first launch, but not logged in, go to welcome screen
-          Navigator.pushReplacement(
-            context, 
-            MaterialPageRoute(builder: (_) => const WelcomeScreen())
-          );
+          Navigator.pushReplacementNamed(context, '/welcome');
         }
       }
     }
