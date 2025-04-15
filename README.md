@@ -1,16 +1,65 @@
-# smart_learn
+# 📱 SmartLearn – Your Smart Academic Companion
 
-A new Flutter project.
+SmartLearn is a Flutter-based mobile application designed exclusively for students of Daffodil International University (DIU). It aims to enhance academic success by providing smart and organized access to essential learning resources such as previous year questions, lecture slides, and more — all in one place.
 
-## Getting Started
+## ✨ Features
 
-This project is a starting point for a Flutter application.
+🔐 Secure Authentication: Sign in and sign up using your DIU Student ID and email.
 
-A few resources to get you started if this is your first Flutter project:
+🎉 Onboarding Experience: A smooth onboarding flow introducing the app’s core features.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+📂 Smart Resource Access: Get previous year questions, lecture notes, and important files.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+📊 Academic Results: View and track your semester-wise academic performance.
+
+🌐 Firebase Integration: Handles authentication and backend support (in progress).
+
+🧪 Form Validation: Ensures valid DIU email, student ID, and password confirmation during sign-up.
+
+## 🚀 Tech Stack
+
+- Flutter & Dart
+
+- Firebase Authentication
+
+- SharedPreferences for persistent state (onboarding screen tracking)
+
+- REST API Integration (for fetching academic results from the DIU Student Portal)
+
+- VS Code for development
+
+## 🛠️ Future Enhancements
+🌐 Cloud Firestore integration for storing and fetching resources.
+
+📅 Class schedule and reminders.
+
+🧪 Quiz Functionality: Interactive quizzes for self-assessment and exam preparation
+
+## 🎨 Figma Design
+
+Check out the design of the SmartLearn app on [Figma](https://www.figma.com/design/C1q5oNe2c8lnHHOsXYflse/Smart-Learn?node-id=0-1&t=tvcvU8Q7QrywXtYM-1).
+
+## 🎬 Demo Video
+
+Watch the demo video of SmartLearn [Watch the Demo]().
+
+## 📄 Project Report
+
+You can download the full project report [here]().
+
+## 📸 Screenshots
+### 🎬 Splash Screen
+![Splash](screenshots/splash_screen.png)
+### 🚀 Onboarding Flow
+![On Boarding Screens](screenshots/onboarding_screen.png)
+### 🔐 Sign In / Sign Up / Reset
+<p align="center">
+  <img src="screenshots/login_screen.png" width="30%" />
+  <img src="screenshots/signup_screen.png" width="30%" />
+  <img src="screenshots/reset_screen.png" width="30%" />
+</p>
+
+### 📊 Academic Results
+![Result](screenshots/result_screen.png)
+
+
