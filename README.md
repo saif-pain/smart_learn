@@ -41,11 +41,11 @@ Check out the design of the SmartLearn app on [Figma](https://www.figma.com/desi
 
 ## 🎬 Demo Video
 
-Watch the demo video of SmartLearn [Watch the Demo]().
+Watch the demo video of SmartLearn [Watch the Demo](https://drive.google.com/file/d/107W2z0ve53nVVJxsidJ0qBXuizsRBWJ0/view?usp=sharing).
 
 ## 📄 Project Report
 
-You can download the full project report [here]().
+You can download the full project report [here](https://www.overleaf.com/read/zjyzmtgwjyzg#58fd59).
 
 ## 📸 Screenshots
 ### 🎬 Splash Screen
