@@ -101,7 +101,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.deepPurple),
               title: Text('My Courses'),
               onTap: () {
-                print("Settings clicked");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyCoursesPage(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -217,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
             case 1: // Courses
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AllCoursesPage()),
+                MaterialPageRoute(builder: (context) => const MyCoursesPage()),
               );
               break;
             case 2: // Profile/Settings

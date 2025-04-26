@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/home/mohimenul/mad project/smart_learn/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/usr/bin/ninja",
+      "-C",
+      "/home/mohimenul/mad-26/smart_learn/android/app/.cxx/Debug/323bs6k1/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/usr/bin/ninja",
+    "-C",
+    "/home/mohimenul/mad-26/smart_learn/android/app/.cxx/Debug/323bs6k1/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

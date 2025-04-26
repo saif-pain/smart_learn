@@ -4,7 +4,7 @@ import 'package:smart_learn/core/app_colors.dart';
 import 'package:smart_learn/screens/home_screen.dart';
 import 'package:smart_learn/screens/settings_page.dart';
 import 'package:smart_learn/screens/account_settings_page.dart';
-import 'package:smart_learn/screens/topics_page.dart';
+import 'package:smart_learn/screens/my_courses_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const TopicsPage(),
+    const MyCoursesPage(),  // Changed from TopicsPage to MyCoursesPage
     const SettingsPage(),
     const AccountSettingsPage(),
   ];
